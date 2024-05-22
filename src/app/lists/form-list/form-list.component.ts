@@ -1,4 +1,4 @@
-import {Component, inject} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {JsonPipe, NgForOf} from "@angular/common";
 import {FormArray, FormBuilder, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {ListsService} from "../../services/lists.service";
@@ -15,7 +15,13 @@ import {ListsService} from "../../services/lists.service";
   templateUrl: './form-list.component.html',
   styleUrl: './form-list.component.scss'
 })
-export default class FormListComponent {
+export default class FormListComponent implements OnInit{
+
+  ngOnInit(): void {
+      this.listService.list.subscribe((list: any) => {
+        this.form.patchValue(list.value)
+      })
+  }
 
   private fb = inject(FormBuilder);
   private listService = inject(ListsService)
@@ -53,7 +59,8 @@ export default class FormListComponent {
 
   private createList(data: any) {
     this.listService.createList(data).subscribe((response) => {
-      console.log(response)
+      this.listService.state.next(true);
+      this.form.reset({});
     })
   }
 
