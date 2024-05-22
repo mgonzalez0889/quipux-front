@@ -1,0 +1,23 @@
+
+<form (submit)="crearLista()" [formGroup]="form">
+  <label for="nombre">Nombre:</label>
+  <input type="text" id="nombre" formControlName="nombre"  required>
+
+  <label for="descripcion">Descripción:</label>
+  <input type="text" id="descripcion" formControlName="descripcion"  required>
+
+  <div formArrayName="canciones">
+    <div *ngFor="let song of songs.controls; let i = index">
+      <div [formGroupName]="i">
+        <input type="text" formControlName="titulo" placeholder="Título">
+        <input type="text" formControlName="artista" placeholder="Artista">
+        <input type="text" formControlName="album" placeholder="Álbum">
+        <input type="number" formControlName="anno" placeholder="Año">
+        <input type="text" formControlName="genero" placeholder="Género">
+      </div>
+    </div>
+  </div>
+
+  <button (click)="addSongs()">Agregar canción</button>
+  <button >Enviar</button>
+</form>
